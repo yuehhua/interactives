@@ -29,18 +29,25 @@ S = _State()
 
 
 # ---------------------------------------------------------------- snapshots
+def _num(x):
+    # json.dumps would emit bare Infinity/NaN, which JSON.parse rejects
+    if isinstance(x, float) and (x != x or x in (float("inf"), float("-inf"))):
+        return repr(x)
+    return x
+
+
 def _cell(x):
     if x is None or isinstance(x, (bool, int, float)):
-        return x
+        return _num(x)
     if isinstance(x, list):
         return {"sub": [_cell(y) if not isinstance(y, list) else "[..]" for y in x[:10]], "n": len(x)}
     r = repr(x)
-    return r if len(r) <= 14 else r[:12] + ".."
+    return r if len(r) <= 20 else r[:18] + ".."
 
 
 def _snap_value(v):
     if v is None or isinstance(v, (bool, int, float)):
-        return v
+        return _num(v)
     if isinstance(v, str):
         return v if len(v) <= 24 else v[:21] + "..."
     if isinstance(v, (list, tuple)):

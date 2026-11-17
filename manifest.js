@@ -1,4 +1,8 @@
 window.MANIFEST = [
+  { id: 'merge-sort', path: 'merge-sort/', topic: 'Divide-and-conquer sorting', title: 'Merge Sort: Divide, Then Merge',
+    blurb: 'Write the merge step that does all the work, then fix a merge that breaks ties the wrong way.', levelIds: ['fill', 'stable'] },
+  { id: 'quicksort', path: 'quicksort/', topic: 'Divide-and-conquer sorting', title: 'Quicksort: Partition and Conquer',
+    blurb: 'Write the in-place partition, then survive already-sorted input with a random pivot.', levelIds: ['fill', 'random-pivot'] },
   { id: 'heaps', path: 'heaps/', topic: 'Priority queues', title: 'Heaps: Sift Up, Sift Down',
     blurb: 'Build the two moves that make a priority queue work, then rescue an extract-max stuck in an infinite loop.', levelIds: ['insert', 'extract'] },
   { id: 'counting-sort', path: 'counting-sort/', topic: 'Linear-time sorting', title: 'Counting Sort at Scale',
@@ -7,8 +11,8 @@ window.MANIFEST = [
     blurb: 'Sort patient chart IDs one digit at a time, then discover why every pass must be stable.', levelIds: ['fill', 'stable'] },
   { id: 'bucket-sort', path: 'bucket-sort/', topic: 'Linear-time sorting', title: 'Bucket Sort: Filing into Drawers',
     blurb: 'File lab values into drawers, then fix what happens when the data is not evenly spread.', levelIds: ['fill', 'skew'] },
-  { id: 'merge-sort', path: 'merge-sort/', topic: 'Divide-and-conquer sorting', title: 'Merge Sort: Divide, Then Merge',
-    blurb: 'Write the merge step that does all the work, then fix a merge that breaks ties the wrong way.', levelIds: ['fill', 'stable'] },
-  { id: 'quicksort', path: 'quicksort/', topic: 'Divide-and-conquer sorting', title: 'Quicksort: Partition and Conquer',
-    blurb: 'Write the in-place partition, then survive already-sorted input with a random pivot.', levelIds: ['fill', 'random-pivot'] },
+  { id: 'activity-selection', path: 'activity-selection/', topic: 'Greedy algorithms', title: 'Activity Selection: The Greedy Choice',
+    blurb: 'Schedule the most operating-room requests, then expose a tempting greedy rule that is wrong.', levelIds: ['fill', 'wrong-rule'] },
+  { id: 'huffman-coding', path: 'huffman-coding/', topic: 'Greedy algorithms', title: 'Huffman Coding: Merge the Two Rarest',
+    blurb: 'Compress a sequencing log: build the optimal prefix code with a heap, then read codes off the tree and decode losslessly.', levelIds: ['build', 'codec'] },
 ];
