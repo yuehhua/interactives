@@ -7,4 +7,8 @@ window.MANIFEST = [
     blurb: 'Sort patient chart IDs one digit at a time, then discover why every pass must be stable.', levelIds: ['fill', 'stable'] },
   { id: 'bucket-sort', path: 'bucket-sort/', topic: 'Linear-time sorting', title: 'Bucket Sort: Filing into Drawers',
     blurb: 'File lab values into drawers, then fix what happens when the data is not evenly spread.', levelIds: ['fill', 'skew'] },
+  { id: 'merge-sort', path: 'merge-sort/', topic: 'Divide-and-conquer sorting', title: 'Merge Sort: Divide, Then Merge',
+    blurb: 'Write the merge step that does all the work, then fix a merge that breaks ties the wrong way.', levelIds: ['fill', 'stable'] },
+  { id: 'quicksort', path: 'quicksort/', topic: 'Divide-and-conquer sorting', title: 'Quicksort: Partition and Conquer',
+    blurb: 'Write the in-place partition, then survive already-sorted input with a random pivot.', levelIds: ['fill', 'random-pivot'] },
 ];
