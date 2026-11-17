@@ -8,24 +8,33 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%230f766e%27/%3E%3C/svg%3E">
 </head>
 <body>
-<header class="top"><strong>Interactives</strong><span class="pill">Data Structures &amp; Algorithms, TMU</span></header>
+<header class="top"><strong data-i18n="siteTitle">Interactives</strong><span class="pill" data-i18n="pill">Data Structures &amp; Algorithms, TMU</span></header>
 <main>
-  <h1>Learn by running your own code</h1>
-  <p class="intro">Short, hands-on labs that run Python right in your browser. Nothing to install: your code runs on your own device. Progress is saved in this browser.</p>
+  <h1 data-i18n="h1">Learn by running your own code</h1>
+  <p class="intro" data-i18n="lead">Short, hands-on labs that run Python right in your browser. Nothing to install: your code runs on your own device. Progress is saved in this browser.</p>
   <div class="cards" id="cards"></div>
 </main>
+<script src="shared/i18n.js"></script>
 <script src="manifest.js"></script>
+<script src="manifest.zh.js"></script>
 <script>
   const cards = document.getElementById('cards');
   const cleared = (m) => m.levelIds.filter((l) => { try { return localStorage.getItem('dsa-int:v1:' + m.id + ':' + l + ':passed') === '1'; } catch (e) { return false; } }).length;
-  for (const m of window.MANIFEST) {
-    const a = document.createElement('a'); a.className = 'lcard'; a.href = m.path;
-    a.innerHTML = '<p class="eyebrow"></p><h3></h3><p class="intro"></p><p class="vlabel"></p>';
-    a.querySelector('.eyebrow').textContent = m.topic;
-    a.querySelector('h3').textContent = m.title; a.querySelector('.intro').textContent = m.blurb;
-    a.querySelector('.vlabel').textContent = cleared(m) + ' / ' + m.levelIds.length + ' levels cleared';
-    cards.append(a);
+  function render() {
+    cards.innerHTML = '';
+    const zh = I18N.lang === 'zh', Z = window.MANIFEST_ZH || {};
+    document.title = I18N.t('siteTitle');
+    for (const m of window.MANIFEST) {
+      const z = zh ? Z[m.id] || {} : {};
+      const a = document.createElement('a'); a.className = 'lcard'; a.href = m.path;
+      a.innerHTML = '<p class="eyebrow"></p><h3></h3><p class="intro"></p><p class="vlabel"></p>';
+      a.querySelector('.eyebrow').textContent = z.topic || m.topic;
+      a.querySelector('h3').textContent = z.title || m.title; a.querySelector('.intro').textContent = z.blurb || m.blurb;
+      a.querySelector('.vlabel').textContent = I18N.t('progress', cleared(m), m.levelIds.length);
+      cards.append(a);
+    }
   }
+  I18N.onChange(render); render();
 </script>
 </body>
 </html>

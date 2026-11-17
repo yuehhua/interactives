@@ -54,16 +54,23 @@
   const passed = () => L.levels.map((lv) => store.get(key(lv, 'passed')) === '1');
   let level = 0, cm, trace = null, pos = 0, timer = null, busy = false, lineMarks = [];
 
-  const status = $('#runtime-status');
-  const runner = new Runner((s) => {
-    status.className = 'pill' + (s === 'ready' ? ' ready' : '');
-    status.textContent = s === 'ready' ? 'Python ready' : s === 'error' ? 'Python failed to load (check your connection)' : 'Loading Python (about 10 MB, cached after the first visit)…';
-  });
+  const T = (k, ...a) => I18N.t(k, ...a);
+  const ZH = window.LESSON_ZH || {};
+  const zh = () => I18N.lang === 'zh';
+  // Localised view of a level: Chinese overlay fields win when present, English otherwise.
+  const view = (i) => { const lv = L.levels[i], z = zh() && ZH.levels ? ZH.levels[i] || {} : {}; return { ...lv, ...z, scale: lv.scale && { ...lv.scale, note: z.scaleNote ?? lv.scale.note } }; };
 
-  $('#topic').textContent = L.topic;
-  $('#title').textContent = L.title;
-  $('#intro').innerHTML = L.intro;
-  document.title = L.title + ' · Interactives';
+  const status = $('#runtime-status');
+  let pyState = 'loading';
+  const showStatus = () => { status.className = 'pill' + (pyState === 'ready' ? ' ready' : ''); status.textContent = pyState === 'ready' ? T('pyReady') : pyState === 'error' ? T('pyFail') : T('pyLoading'); };
+  const runner = new Runner((s) => { pyState = s; showStatus(); });
+  const head = () => {
+    $('#topic').textContent = zh() && ZH.topic || L.topic;
+    const ti = zh() && ZH.title || L.title;
+    $('#title').textContent = ti; $('#intro').innerHTML = zh() && ZH.intro || L.intro;
+    document.title = ti + ' · ' + T('siteTitle');
+  };
+  head();
 
   cm = CodeMirror($('#editor'), {
     mode: 'python', lineNumbers: true, indentUnit: 4, viewportMargin: Infinity,
@@ -85,25 +92,30 @@
   }
   function setBusy(b) { busy = b; document.querySelectorAll('button.act').forEach((x) => (x.disabled = b)); }
   const errText = (e) => e.type === 'StepBudgetExceeded'
-    ? `Stopped after ${fmt(e.budget)} executed lines: probably an infinite loop${e.line ? ` (last line ${e.line})` : ''}.`
-    : `${e.type}: ${e.msg}${e.line ? ` (line ${e.line})` : ''}`;
+    ? T('budget', fmt(e.budget), e.line)
+    : `${e.type}: ${e.msg}${e.line ? (zh() ? `（第 ${e.line} 行）` : ` (line ${e.line})`) : ''}`;
 
   function renderTabs() {
     const p = passed(); const nav = $('#levels'); nav.innerHTML = '';
     L.levels.forEach((lv, i) => {
-      const b = el('button', '', `${p[i] ? '✓ ' : ''}Level ${i + 1}: ${lv.title}`);
+      const b = el('button', '', `${p[i] ? '✓ ' : ''}${zh() ? `第 ${i + 1} 關：` : `Level ${i + 1}: `}${view(i).title}`);
       b.setAttribute('aria-current', i === level); b.onclick = () => selectLevel(i); nav.append(b);
     });
+  }
+  function renderLevelText() {
+    const v = view(level);
+    $('#brief').innerHTML = `<h2>${zh() ? `第 ${level + 1} 關：` : `Level ${level + 1}: `}${v.title}</h2><p>${v.brief}</p>`;
+    $('#hints').innerHTML = `<summary>${T('hints')}</summary>` + v.hints.map((h) => `<p>${h}</p>`).join('');
+    if (!$('#finish').hidden) $('#reflect').textContent = v.reflect || '';
+    renderTabs();
   }
   function selectLevel(i) {
     stopPlay(); level = i; const lv = L.levels[i]; trace = null;
     cm.setValue(store.get(key(lv, 'code')) ?? lv.starter); clearMarks(); notice('');
-    $('#brief').innerHTML = `<h2>Level ${i + 1}: ${lv.title}</h2><p>${lv.brief}</p>`;
-    $('#hints').innerHTML = '<summary>Stuck? Hints</summary>' + lv.hints.map((h) => `<p>${h}</p>`).join('');
-    $('#results').textContent = 'Run the tests to see results.'; $('#stdout').textContent = '';
-    $('#viz').innerHTML = '<p class="vlabel">Press “Step through” to run the demo input on your code.</p>';
+    $('#results').textContent = T('runToSee'); $('#stdout').textContent = '';
+    $('#viz').innerHTML = `<p class="vlabel">${T('pressStep')}</p>`;
     $('#controls').hidden = true; $('#finish').hidden = true;
-    $('#scale-card').hidden = !lv.scale; $('#scale').innerHTML = ''; renderTabs();
+    $('#scale-card').hidden = !lv.scale; $('#scale').innerHTML = ''; renderLevelText();
   }
 
   // ------------------------------------------------------------ visualizer
@@ -138,7 +150,7 @@
     pos = i; const s = trace.snaps[i], prev = i > 0 ? trace.snaps[i - 1] : null, v = L.levels[level].viz;
     clearMarks(); if (!s.ret) mark(s.line, 'cur-line');
     const box = $('#viz'); box.innerHTML = '';
-    box.append(el('div', 'vlabel', s.ret ? `${s.fn}() returns` : `in ${s.fn}(), about to run line ${s.line}`));
+    box.append(el('div', 'vlabel', s.ret ? `${s.fn}() ${T('returns')}` : T('aboutToRun', s.fn, s.line)));
     if (s.nodes) {
       for (const ch of s.nodes.chains) {
         const row = el('div', 'vrow', el('div', 'vname', 'nodes')), chain = el('div', 'chain');
@@ -167,7 +179,7 @@
         const tags = ptrs.filter((p) => s.vars[p] === j).join(',');
         cells.append(el('div', 'cellw', el('div', 'cell' + (old && !same(old[j], x) ? ' chg' : ''), x === null ? 'None' : String(x)), el('div', 'idx', j), el('div', 'tag', tags || ' ')));
       });
-      if (s.vars[name].n > cur.length) cells.append(el('div', 'idx', `+${s.vars[name].n - cur.length} more`));
+      if (s.vars[name].n > cur.length) cells.append(el('div', 'idx', zh() ? `另有 ${s.vars[name].n - cur.length} 個` : `+${s.vars[name].n - cur.length} more`));
       row.append(cells); box.append(row);
     }
     if (v.tree && s.vars[v.tree] && s.vars[v.tree].list) {
@@ -194,7 +206,7 @@
   async function guarded(fn) {
     if (busy) return; setBusy(true);
     try { await fn(); }
-    catch (e) { notice(e.timeout ? 'Your code ran too long, so Python was stopped and restarted. Check your loops.' : 'Something went wrong: ' + e.message); }
+    catch (e) { notice(e.timeout ? T('timeout') : T('wrong') + e.message); }
     finally { setBusy(false); }
   }
   const lv = () => L.levels[level];
@@ -204,19 +216,19 @@
     notice(trace.error ? errText(trace.error) : '');
     if (trace.error) mark(trace.error.line, 'err-line');
     $('#stdout').textContent = trace.stdout || '';
-    if (!trace.snaps.length) { $('#viz').textContent = 'Nothing to show: the function did not execute any lines.'; return; }
+    if (!trace.snaps.length) { $('#viz').textContent = T('nothing'); return; }
     $('#controls').hidden = false; $('#step').max = trace.snaps.length - 1;
     renderStep(0); togglePlay();
   });
   const doTests = () => guarded(async () => {
-    stopPlay(); notice('Running tests…', true);
+    stopPlay(); notice(T('running'), true);
     const r = await runner.call('run_tests', [cm.getValue(), lv().tests], 30000);
     notice(r.fatal ? errText(r.fatal) : ''); clearMarks(); if (r.fatal) mark(r.fatal.line, 'err-line');
     $('#stdout').textContent = r.stdout || '';
     const box = $('#results'); box.innerHTML = '';
     for (const t of r.results) {
       const row = el('div', 'res', el('span', t.ok ? 'ok' : 'no', t.ok ? '✓' : '✗'),
-        el('div', '', t.name, el('span', 'tier', t.tier), el('span', 'tier', `${fmt(t.steps)} lines`)));
+        el('div', '', t.name, el('span', 'tier', t.tier), el('span', 'tier', `${fmt(t.steps)} ${T('lines')}`)));
       if (!t.ok) { row.append(el('div', 'm', t.msg)); if (t.line) mark(t.line, 'err-line'); }
       box.append(row);
     }
@@ -224,16 +236,16 @@
     $('#finish').hidden = !all;
     if (all) {
       store.set(key(lv(), 'passed'), '1'); renderTabs();
-      $('#reflect').textContent = lv().reflect || '';
+      $('#reflect').textContent = view(level).reflect || '';
       $('#next').hidden = level >= L.levels.length - 1;
     }
   });
   const doScale = () => guarded(async () => {
-    const s = lv().scale, box = $('#scale'); box.textContent = 'Measuring…';
+    const s = view(level).scale, box = $('#scale'); box.textContent = T('measuring');
     const r = await runner.call('run_scale', [cm.getValue(), s.entry, s.gen, s.sizes, s.baseline ?? null], 60000);
     if (r.error) { box.textContent = errText(r.error); return; }
-    const t = el('table', 'scale'), head = el('tr', '', el('th', '', 'n'), el('th', '', 'your lines'), el('th', '', 'growth'));
-    if (s.baseline) head.append(el('th', '', s.baselineLabel), el('th', '', 'growth')); t.append(head);
+    const t = el('table', 'scale'), head = el('tr', '', el('th', '', 'n'), el('th', '', T('yourLines')), el('th', '', T('growth')));
+    if (s.baseline) head.append(el('th', '', zh() && view(level).baselineLabel || s.baselineLabel), el('th', '', T('growth'))); t.append(head);
     const cell = (x) => (x === null ? `> ${fmt(r.budget)}` : fmt(x));
     const grow = (a, b) => (a && b ? `×${(a / b).toFixed(1)}` : '');
     r.rows.forEach((row, i) => {
@@ -245,8 +257,8 @@
   });
 
   $('#run').onclick = doTests; $('#trace').onclick = doTrace; $('#measure').onclick = doScale;
-  $('#reset').onclick = () => { if (confirm('Reset this level to the starting code?')) { cm.setValue(lv().starter); } };
-  $('#copy').onclick = async () => { try { await navigator.clipboard.writeText(cm.getValue()); notice('Copied. Paste it into your lab file.', true); } catch { cm.focus(); cm.execCommand('selectAll'); notice('Select-all done: press Ctrl/Cmd+C.', true); } };
+  $('#reset').onclick = () => { if (confirm(T('confirmReset'))) { cm.setValue(lv().starter); } };
+  $('#copy').onclick = async () => { try { await navigator.clipboard.writeText(cm.getValue()); notice(T('copied'), true); } catch { cm.focus(); cm.execCommand('selectAll'); notice(T('selectAll'), true); } };
   $('#download').onclick = () => { const a = el('a'); a.href = URL.createObjectURL(new Blob([cm.getValue()], { type: 'text/x-python' })); a.download = `${L.id}-${lv().id}.py`; a.click(); URL.revokeObjectURL(a.href); };
   $('#next').onclick = () => { selectLevel(level + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); };
   $('#play').onclick = () => trace && togglePlay();
@@ -254,5 +266,7 @@
   $('#fwd').onclick = () => { stopPlay(); if (trace && pos < trace.snaps.length - 1) renderStep(pos + 1); };
   $('#step').oninput = (e) => { stopPlay(); renderStep(Number(e.target.value)); };
 
+  I18N.onChange(() => { head(); showStatus(); renderLevelText(); if (trace) renderStep(pos); });
+  I18N.apply(); showStatus();
   selectLevel(0);
 })();
