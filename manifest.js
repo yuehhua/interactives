@@ -219,5 +219,53 @@ window.MANIFEST = [
       "build",
       "codec"
     ]
+  },
+  {
+    "id": "rod-cutting",
+    "path": "rod-cutting/",
+    "topic": "Dynamic programming",
+    "title": "Rod Cutting: From Exponential to a Table",
+    "blurb": "Cut a steel rod for maximum revenue: write the exponential recursion, fix a memo that never remembers, then fill the table smallest first.",
+    "levelIds": [
+      "naive",
+      "memo",
+      "bottom-up"
+    ]
+  },
+  {
+    "id": "knapsack-dp",
+    "path": "knapsack-dp/",
+    "topic": "Dynamic programming",
+    "title": "0-1 Knapsack: The Relief Pallet",
+    "blurb": "Load a 200 kg relief pallet: fill the take-or-leave table, trace back which crates fly, and see why greedy by ratio gets 640 instead of 880.",
+    "levelIds": [
+      "cell",
+      "traceback",
+      "greedy"
+    ]
+  },
+  {
+    "id": "lcs",
+    "path": "lcs/",
+    "topic": "Dynamic programming",
+    "title": "Longest Common Subsequence: Fill the Table",
+    "blurb": "Fill the common-subsequence table for two DNA strands, walk back to print the shared strand, then fix a mismatch rule that forgets a neighbour.",
+    "levelIds": [
+      "fill",
+      "trace",
+      "wrong-mismatch"
+    ]
+  },
+  {
+    "id": "edit-distance",
+    "path": "edit-distance/",
+    "topic": "Dynamic programming",
+    "title": "Edit Distance: How Far Apart Are Two Strands?",
+    "blurb": "Count the fewest inserts, deletes and substitutions between two isolates, fix a match that is not free, then memoise a recursion that would outlive the universe.",
+    "levelIds": [
+      "fill",
+      "free-match",
+      "memo"
+    ]
   }
 ];
