@@ -34,7 +34,7 @@ details{margin:8px 0;color:var(--mute)} summary{cursor:pointer}
 .cm-s-default .cm-keyword,.cm-s-default .cm-builtin{color:var(--kw)} .cm-s-default .cm-string{color:var(--str)}
 .cm-s-default .cm-number{color:var(--num)} .cm-s-default .cm-comment{color:var(--cm)} .cm-s-default .cm-def{color:var(--num)}
 .CodeMirror .cur-line{background:var(--chg)} .CodeMirror .err-line{background:var(--err)}
-.viz{min-height:150px}
+.viz{height:360px;overflow:auto}
 .vlabel{font-size:.8rem;color:var(--mute);margin-bottom:6px}
 .vrow{display:flex;gap:8px;align-items:flex-start;margin:8px 0}
 .vname{width:52px;flex:none;font:600 .8rem ui-monospace,monospace;color:var(--mute);padding-top:4px}
