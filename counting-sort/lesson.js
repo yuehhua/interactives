@@ -11,7 +11,7 @@ window.LESSON = {
       id: 'fill',
       title: 'Count, accumulate, place',
       entry: 'counting_sort',
-      brief: `Fill in the three <code>...</code> blanks. Press <b>Step through</b> to watch the demo
+      brief: `Fill in the three <code>pass</code> blanks. Press <b>Step through</b> to watch the demo
         (CLRS Figure 8.2) run on <i>your</i> code, then <b>Run tests</b>.
         Once it passes, open <b>Scale it up</b> and see why this is linear.`,
       hints: [
@@ -25,17 +25,17 @@ window.LESSON = {
 
     # Phase 1: count how many times each key appears
     for a in keys:
-        ...   # TODO
+        pass   # TODO
 
     # Phase 2: prefix sums, so count[i] = number of keys <= i
     for i in range(1, k + 1):
-        ...   # TODO
+        pass   # TODO
 
     # Phase 3: place keys into out, walking back to front
     out = [None] * len(keys)
     for j in range(len(keys) - 1, -1, -1):
         a = keys[j]
-        ...   # TODO: decrement first, then write
+        pass   # TODO: decrement first, then write
     return out
 `,
       reflect: 'In one sentence: why does the step count grow about ×10 when n grows ×10, even though k = 99 stays fixed?',

@@ -33,12 +33,12 @@ def bucket_sort(values):
     n = len(values)
     buckets = [[] for _ in range(n)]
     for x in values:
-        ...   # TODO: append x to drawer number floor(n * x)
+        pass   # TODO: append x to drawer number floor(n * x)
     for b in buckets:
         insertion_sort(b)
     out = []
     for b in buckets:
-        ...   # TODO: put the sorted drawers back in order
+        pass   # TODO: put the sorted drawers back in order
     return out
 `,
       reflect: 'In one sentence: why is each drawer expected to hold only about one value when the data is uniform?',

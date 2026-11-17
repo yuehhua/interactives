@@ -24,8 +24,8 @@ window.LESSON = {
     i = lo - 1
     for j in range(lo, hi):
         if a[j] <= pivot:
-            ...   # TODO: grow the small region, then swap a[j] into it
-    ...   # TODO: put the pivot between the two regions
+            pass   # TODO: grow the small region, then swap a[j] into it
+    pass   # TODO: put the pivot between the two regions
     return i + 1
 
 def quicksort(a, lo=0, hi=None):

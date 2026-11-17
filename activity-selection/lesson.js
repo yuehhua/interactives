@@ -81,8 +81,8 @@ window.LESSON = {
     chosen = []
     last_finish = float("-inf")
     for s, f in sorted(acts, key=lambda a: a[1]):      # earliest finish first
-        if ...:                                        # TODO: starts after the last chosen one finished?
-            ...                                        # TODO: choose it and remember its finish
+        if False:                                      # TODO: replace False: does it start after the last chosen one finished?
+            pass                                        # TODO: choose it and remember its finish
     return chosen
 `,
       reflect: 'In one sentence: why can swapping the optimal solution\'s first activity for the earliest-finishing one never hurt?',

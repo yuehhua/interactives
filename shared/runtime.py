@@ -52,18 +52,110 @@ def _snap_value(v):
         return v if len(v) <= 24 else v[:21] + "..."
     if isinstance(v, (list, tuple)):
         return {"list": [_cell(x) for x in v[:48]], "n": len(v)}
+    if isinstance(v, (dict, set)):
+        r = repr(v)
+        return r if len(r) <= 50 else r[:47] + "..."
     return None
+
+
+_VAL_ATTRS = ("val", "value", "data", "key")
+
+
+def _nval(n):
+    for a in _VAL_ATTRS:
+        if hasattr(n, a):
+            return _cell(getattr(n, a))
+    return "o"
+
+
+def _kind(v):
+    if v is None or callable(v) or isinstance(v, (bool, int, float, str, list, tuple, dict, set)):
+        return None
+    if hasattr(v, "left") and hasattr(v, "right"):
+        return "tree"
+    if hasattr(v, "next"):
+        return "list"
+    return None
+
+
+def _chain(n, limit=12):
+    out, seen = [], set()
+    while n is not None and id(n) not in seen and len(out) < limit:
+        seen.add(id(n))
+        out.append(n)
+        n = getattr(n, "next", None)
+    return out
+
+
+def _subtree(n, depth=0, out=None):
+    out = [] if out is None else out
+    if n is not None and depth < 5 and len(out) < 31 and not any(n is x for x in out):
+        out.append(n)
+        _subtree(getattr(n, "left", None), depth + 1, out)
+        _subtree(getattr(n, "right", None), depth + 1, out)
+    return out
+
+
+def _roots(names, members):
+    """A variable is a root unless another variable's structure already contains its node."""
+    roots = []
+    for i, k in enumerate(names):
+        f = members[k][0]
+        hidden = False
+        for j, m in enumerate(names):
+            if j == i:
+                continue
+            pos = next((p for p, x in enumerate(members[m]) if x is f), None)
+            if pos is not None and (pos > 0 or j < i):
+                hidden = True
+                break
+        if not hidden:
+            roots.append(k)
+    return roots
+
+
+def _tree_json(n, depth, tags, budget):
+    if n is None or depth >= 5 or budget[0] <= 0:
+        return None
+    budget[0] -= 1
+    return {"v": _nval(n), "tags": tags(n),
+            "l": _tree_json(getattr(n, "left", None), depth + 1, tags, budget),
+            "r": _tree_json(getattr(n, "right", None), depth + 1, tags, budget)}
+
+
+def _structs(loc):
+    names = [k for k, v in loc.items() if not k.startswith("_") and _kind(v)]
+    if not names:
+        return None
+    tags = lambda obj: [k for k in names if loc[k] is obj]
+    out = {"chains": [], "trees": []}
+    lnames = [k for k in names if _kind(loc[k]) == "list"]
+    chains = {k: _chain(loc[k]) for k in lnames}
+    for k in _roots(lnames, chains):
+        ch = chains[k]
+        more = getattr(ch[-1], "next", None) is not None
+        out["chains"].append({"items": [{"v": _nval(n), "tags": tags(n)} for n in ch], "more": more})
+    tnames = [k for k in names if _kind(loc[k]) == "tree"]
+    subs = {k: _subtree(loc[k]) for k in tnames}
+    for k in _roots(tnames, subs):
+        out["trees"].append(_tree_json(loc[k], 0, tags, [31]))
+    return out
 
 
 def _snapshot(frame, ret=False):
     vars_ = {}
-    for name, v in frame.f_locals.items():
+    loc = dict(frame.f_locals)
+    for name, v in loc.items():
         if name.startswith("_") or callable(v):
             continue
         sv = _snap_value(v)
         if sv is not None or v is None:
             vars_[name] = sv
-    return {"line": frame.f_lineno, "fn": frame.f_code.co_name, "vars": vars_, "ret": ret}
+    snap = {"line": frame.f_lineno, "fn": frame.f_code.co_name, "vars": vars_, "ret": ret}
+    st = _structs(loc)
+    if st:
+        snap["nodes"] = st
+    return snap
 
 
 # ------------------------------------------------------------------ tracer
@@ -184,7 +276,7 @@ def _run_tests(code, tests_src):
                 item["msg"] = (
                     f"Over the budget of {budget:,} executed lines. "
                     + ("That is too slow for this input size." if tier == "perf"
-                       else "Probably an infinite loop: what makes each `while` stop?")
+                       else "Probably an infinite loop, or far too slow for this input: what makes each `while` stop?")
                 )
                 item["budget_exceeded"] = True
             else:

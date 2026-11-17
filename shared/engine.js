@@ -120,11 +120,33 @@
     for (let i = 0; i < n; i++) { const [x, y] = P(i); add('circle', { cx: x, cy: y, r: 15, class: i === focusIdx ? 'focus' : changed.has(i) ? 'chg' : '' }); add('text', { x, y }, String(list[i])); }
     return svg;
   }
+  function drawNodeTree(root) {
+    let rank = 0, maxD = 0; const pts = [];
+    const place = (n, d) => { if (!n) return null; const l = place(n.l, d + 1); const me = { n, x: rank++, d }; maxD = Math.max(maxD, d); const r = place(n.r, d + 1); pts.push(me); me.l = l; me.r = r; return me; };
+    const top = place(root, 0); if (!top) return null;
+    const step = 38, W = Math.max(rank * step, 90), H = 34 + maxD * 46;
+    const ns = 'http://www.w3.org/2000/svg', svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('class', 'tree'); svg.style.maxWidth = Math.max(W, 120) + 'px';
+    const X = (p) => (p.x + 0.5) * step, Y = (p) => 24 + p.d * 46;
+    const add = (t, a, txt) => { const e = document.createElementNS(ns, t); for (const k in a) e.setAttribute(k, a[k]); if (txt !== undefined) e.textContent = txt; svg.append(e); };
+    for (const p of pts) for (const c of [p.l, p.r]) if (c) add('line', { x1: X(p), y1: Y(p), x2: X(c), y2: Y(c) });
+    for (const p of pts) { add('circle', { cx: X(p), cy: Y(p), r: 14, class: p.n.tags.length ? 'focus' : '' }); add('text', { x: X(p), y: Y(p) }, String(p.n.v));
+      if (p.n.tags.length) { const t = document.createElementNS(ns, 'text'); t.setAttribute('x', X(p)); t.setAttribute('y', Y(p) - 19); t.setAttribute('class', 'ptag'); t.textContent = p.n.tags.join(','); svg.append(t); } }
+    return svg;
+  }
   function renderStep(i) {
     pos = i; const s = trace.snaps[i], prev = i > 0 ? trace.snaps[i - 1] : null, v = L.levels[level].viz;
     clearMarks(); if (!s.ret) mark(s.line, 'cur-line');
     const box = $('#viz'); box.innerHTML = '';
     box.append(el('div', 'vlabel', s.ret ? `${s.fn}() returns` : `in ${s.fn}(), about to run line ${s.line}`));
+    if (s.nodes) {
+      for (const ch of s.nodes.chains) {
+        const row = el('div', 'vrow', el('div', 'vname', 'nodes')), chain = el('div', 'chain');
+        for (const it of ch.items) chain.append(el('div', 'node', el('div', 'cell', String(it.v)), el('div', 'tag', it.tags.join(',') || '\u00a0')), el('span', 'arrow', '\u2192'));
+        chain.append(el('span', 'idx', ch.more ? '\u2026' : 'None')); row.append(chain); box.append(row);
+      }
+      for (const t of s.nodes.trees) { const svg = drawNodeTree(t); if (svg) box.append(svg); }
+    }
     const names = Object.keys(s.vars), lists = names.filter((k) => s.vars[k] && s.vars[k].list);
     lists.sort((a, b) => (v.lists.indexOf(a) + 99) % 99 - (v.lists.indexOf(b) + 99) % 99);
     const ptrs = v.pointers.filter((k) => Number.isInteger(s.vars[k]));

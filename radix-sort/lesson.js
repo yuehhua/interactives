@@ -39,7 +39,7 @@ def counting_sort_by_digit(a, i):
 def radix_sort(nums, d):
     """Sort non-negative integers of at most d digits, least significant digit first."""
     a = list(nums)
-    ...   # TODO: one stable pass per digit, from the ones place up
+    pass   # TODO: one stable pass per digit, from the ones place up
     return a
 `,
       reflect: 'In one sentence: why does the total cost grow as d × (n + 10) instead of n log n?',

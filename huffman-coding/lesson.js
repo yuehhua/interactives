@@ -28,8 +28,8 @@ def build_tree(freqs):
     tie = len(heap)                     # breaks ties between equal frequencies
     while len(heap) > 1:
         x = heapq.heappop(heap)         # the rarest item
-        y = ...                         # TODO: pop the next rarest
-        ...                             # TODO: push the merged node back
+        y = None                        # TODO: pop the next rarest
+        pass                             # TODO: push the merged node back
         tie += 1
     return heap[0][2]
 `,
@@ -120,7 +120,7 @@ def make_codes(root):
         if isinstance(node, str):
             table[node] = prefix or "0"     # a lone letter still needs one bit
         else:
-            ...   # TODO: walk left with prefix + "0", right with prefix + "1"
+            pass   # TODO: walk left with prefix + "0", right with prefix + "1"
     walk(root, "")
     return table
 
@@ -131,7 +131,7 @@ def decode(bits, root):
     """Walk from the root; at each leaf emit its character and restart."""
     out, node = [], root
     for bit in bits:
-        node = ...   # TODO: step left on "0", right on "1"
+        node = root   # TODO: step left on "0", right on "1"
         if isinstance(node, str):
             out.append(node)
             node = root

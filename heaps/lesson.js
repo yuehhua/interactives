@@ -25,7 +25,7 @@ def heap_insert(heap, x):
     heap.append(x)
     i = len(heap) - 1
     while i > 0 and heap[parent(i)] < heap[i]:
-        ...   # TODO: swap the node with its parent
+        pass   # TODO: swap the node with its parent
         i = parent(i)
 `,
       reflect: 'In one sentence: why does one insert cost O(log n) swaps at most, not O(n)?',
