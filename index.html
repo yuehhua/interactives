@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactives</title>
+<link rel="stylesheet" href="shared/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%230f766e%27/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="top"><strong>Interactives</strong><span class="pill">Data Structures &amp; Algorithms, TMU</span></header>
+<main>
+  <h1>Learn by running your own code</h1>
+  <p class="intro">Short, hands-on labs that run Python right in your browser. Nothing to install: your code runs on your own device. Progress is saved in this browser.</p>
+  <div class="cards" id="cards"></div>
+</main>
+<script src="manifest.js"></script>
+<script>
+  const cards = document.getElementById('cards');
+  const cleared = (m) => m.levelIds.filter((l) => { try { return localStorage.getItem('dsa-int:v1:' + m.id + ':' + l + ':passed') === '1'; } catch (e) { return false; } }).length;
+  for (const m of window.MANIFEST) {
+    const a = document.createElement('a'); a.className = 'lcard'; a.href = m.path;
+    a.innerHTML = '<p class="eyebrow"></p><h3></h3><p class="intro"></p><p class="vlabel"></p>';
+    a.querySelector('.eyebrow').textContent = 'Week ' + m.week;
+    a.querySelector('h3').textContent = m.title; a.querySelector('.intro').textContent = m.blurb;
+    a.querySelector('.vlabel').textContent = cleared(m) + ' / ' + m.levelIds.length + ' levels cleared';
+    cards.append(a);
+  }
+</script>
+</body>
+</html>
