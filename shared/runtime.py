@@ -32,6 +32,8 @@ S = _State()
 def _cell(x):
     if x is None or isinstance(x, (bool, int, float)):
         return x
+    if isinstance(x, list):
+        return {"sub": [_cell(y) if not isinstance(y, list) else "[..]" for y in x[:10]], "n": len(x)}
     r = repr(x)
     return r if len(r) <= 14 else r[:12] + ".."
 

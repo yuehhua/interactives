@@ -1,7 +1,7 @@
 window.LESSON = {
   id: 'counting-sort',
   title: 'Counting Sort at Scale',
-  week: 10 + 1,
+  topic: 'Linear-time sorting',
   intro: `A sequencer emits a <b>Phred quality score</b> (an integer from 0 to 60) for every base it reads.
     Millions of them, all squeezed into 61 possible values. Comparison sorts need Ω(n log n) work,
     but when the keys are small integers you can skip comparing altogether: <b>count</b> them, <b>accumulate</b>

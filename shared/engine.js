@@ -60,7 +60,7 @@
     status.textContent = s === 'ready' ? 'Python ready' : s === 'error' ? 'Python failed to load (check your connection)' : 'Loading Python (about 10 MB, cached after the first visit)…';
   });
 
-  $('#week').textContent = `Week ${L.week} lab`;
+  $('#topic').textContent = L.topic;
   $('#title').textContent = L.title;
   $('#intro').innerHTML = L.intro;
   document.title = L.title + ' · Interactives';
@@ -107,6 +107,7 @@
   }
 
   // ------------------------------------------------------------ visualizer
+  const isSub = (x) => x !== null && typeof x === 'object' && Array.isArray(x.sub);
   const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
   function drawTree(list, focusIdx, changed) {
     const n = Math.min(list.length, 31); if (!n) return null;
@@ -130,6 +131,16 @@
     for (const name of lists) {
       const cur = s.vars[name].list, old = prev && prev.vars[name] && prev.vars[name].list;
       const row = el('div', 'vrow', el('div', 'vname', name)), cells = el('div', 'cells');
+      if (cur.some(isSub)) {
+        cells.className = 'drawers';
+        cur.forEach((x, j) => {
+          const d = el('div', 'drawer' + (old && !same(old[j], x) ? ' chg' : ''), el('span', 'idx', j));
+          for (const y of isSub(x) ? x.sub : []) d.append(el('span', 'dchip', String(y)));
+          if (isSub(x) && x.n > x.sub.length) d.append(el('span', 'idx', `+${x.n - x.sub.length}`));
+          cells.append(d);
+        });
+        row.append(cells); box.append(row); continue;
+      }
       cur.forEach((x, j) => {
         const tags = ptrs.filter((p) => s.vars[p] === j).join(',');
         cells.append(el('div', 'cellw', el('div', 'cell' + (old && !same(old[j], x) ? ' chg' : ''), x === null ? 'None' : String(x)), el('div', 'idx', j), el('div', 'tag', tags || ' ')));

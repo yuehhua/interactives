@@ -1,6 +1,10 @@
 window.MANIFEST = [
-  { id: 'heaps', path: 'heaps/', week: 10, title: 'Heaps: Sift Up, Sift Down',
+  { id: 'heaps', path: 'heaps/', topic: 'Priority queues', title: 'Heaps: Sift Up, Sift Down',
     blurb: 'Build the two moves that make a priority queue work, then rescue an extract-max stuck in an infinite loop.', levelIds: ['insert', 'extract'] },
-  { id: 'counting-sort', path: 'counting-sort/', week: 11, title: 'Counting Sort at Scale',
+  { id: 'counting-sort', path: 'counting-sort/', topic: 'Linear-time sorting', title: 'Counting Sort at Scale',
     blurb: 'Sort 200 sequencing quality scores without comparing them, then hunt down a stability bug.', levelIds: ['fill', 'stable'] },
+  { id: 'radix-sort', path: 'radix-sort/', topic: 'Linear-time sorting', title: 'Radix Sort: Digit by Digit',
+    blurb: 'Sort patient chart IDs one digit at a time, then discover why every pass must be stable.', levelIds: ['fill', 'stable'] },
+  { id: 'bucket-sort', path: 'bucket-sort/', topic: 'Linear-time sorting', title: 'Bucket Sort: Filing into Drawers',
+    blurb: 'File lab values into drawers, then fix what happens when the data is not evenly spread.', levelIds: ['fill', 'skew'] },
 ];

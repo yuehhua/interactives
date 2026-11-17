@@ -60,3 +60,7 @@ pre{white-space:pre-wrap;margin:0;font:.85rem ui-monospace,monospace}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px}
 .lcard{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
 .lcard:hover{border-color:var(--accent)} .lcard h3{margin:.2rem 0}
+.drawers{display:flex;flex-direction:column;gap:3px}
+.drawer{display:flex;gap:4px;align-items:center;min-height:26px;padding:0 6px;border:1px dashed var(--line);border-radius:4px}
+.drawer.chg{background:var(--chg)} .drawer .idx{width:16px}
+.dchip{font:.75rem ui-monospace,monospace;background:var(--cell);border:1px solid var(--line);border-radius:4px;padding:0 .3rem}

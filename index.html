@@ -21,7 +21,7 @@
   for (const m of window.MANIFEST) {
     const a = document.createElement('a'); a.className = 'lcard'; a.href = m.path;
     a.innerHTML = '<p class="eyebrow"></p><h3></h3><p class="intro"></p><p class="vlabel"></p>';
-    a.querySelector('.eyebrow').textContent = 'Week ' + m.week;
+    a.querySelector('.eyebrow').textContent = m.topic;
     a.querySelector('h3').textContent = m.title; a.querySelector('.intro').textContent = m.blurb;
     a.querySelector('.vlabel').textContent = cleared(m) + ' / ' + m.levelIds.length + ' levels cleared';
     cards.append(a);

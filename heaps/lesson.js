@@ -1,7 +1,7 @@
 window.LESSON = {
   id: 'heaps',
   title: 'Heaps: Sift Up, Sift Down',
-  week: 10,
+  topic: 'Priority queues',
   intro: `An emergency room must always treat the most urgent patient next. A <b>max-heap</b> keeps that
     patient at index 0 of a plain Python list, where the children of node <code>i</code> live at
     <code>2i+1</code> and <code>2i+2</code> (0-based). Two moves keep the shape intact:
