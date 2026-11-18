@@ -36,15 +36,22 @@
       progress: (a, b) => `已通過 ${a} / ${b} 關`, langBtn: 'EN',
     },
   };
-  const get = () => { try { const v = localStorage.getItem(KEY); if (v === 'en' || v === 'zh') return v; } catch {} return /^zh/i.test(navigator.language || '') ? 'zh' : 'en'; };
-  const fromUrl = new URLSearchParams(location.search).get('lang');
-  let lang = fromUrl === 'zh' || fromUrl === 'en' ? fromUrl : get();
+  // The language comes from the URL: /interactives/en/... or /interactives/zh/...
+  const m = location.pathname.match(/\/(en|zh)(\/|$)/);
+  const pref = () => { try { const v = localStorage.getItem(KEY); if (v === 'en' || v === 'zh') return v; } catch {} return /^zh/i.test(navigator.language || '') ? 'zh' : 'en'; };
+  let lang = m ? m[1] : pref();
   const subs = [];
   const I18N = {
     get lang() { return lang; },
     t(k, ...a) { const v = DICT[lang][k] ?? DICT.en[k]; return typeof v === 'function' ? v(...a) : v; },
     onChange(f) { subs.push(f); },
-    set(l) { lang = l; try { localStorage.setItem(KEY, l); } catch {} document.documentElement.lang = l === 'zh' ? 'zh-Hant' : 'en'; I18N.apply(); subs.forEach((f) => f(l)); },
+    // Switching language moves to the same page under the other language's URL.
+    set(l) {
+      try { localStorage.setItem(KEY, l); } catch {}
+      if (m) location.href = location.pathname.replace(/\/(en|zh)(\/|$)/, '/' + l + '$2') + location.search + location.hash;
+      else { lang = l; document.documentElement.lang = l === 'zh' ? 'zh-Hant' : 'en'; I18N.apply(); subs.forEach((f) => f(l)); }
+    },
+    pref,
     // Static strings in the page template: <el data-i18n="key">
     apply() {
       document.querySelectorAll('[data-i18n]').forEach((e) => { e.textContent = I18N.t(e.dataset.i18n); });

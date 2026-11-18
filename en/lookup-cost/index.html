@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Structure Matters: Finding the Charger · Interactives</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" integrity="sha384-zaeBlB/vwYsDRSlFajnDd7OydJ0cWk+c2OWybl3eSUf6hW2EbhlCsQPqKr3gkznT" crossorigin="anonymous">
+<link rel="stylesheet" href="../../shared/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%230f766e%27/%3E%3C/svg%3E">
+<link rel="alternate" hreflang="en" href="https://yuehhua.github.io/interactives/en/lookup-cost/">
+<link rel="alternate" hreflang="zh-Hant" href="https://yuehhua.github.io/interactives/zh/lookup-cost/">
+<link rel="alternate" hreflang="x-default" href="https://yuehhua.github.io/interactives/en/lookup-cost/">
+</head>
+<body>
+<header class="top"><a href="../" data-i18n="allLabs">&larr; All interactives</a><span id="runtime-status" class="pill" data-i18n="loadingPy">Loading Python&hellip;</span></header>
+<main>
+  <p class="eyebrow" id="topic"></p>
+  <h1 id="title"></h1>
+  <p class="intro" id="intro"></p>
+  <nav class="levels" id="levels" aria-label="Levels" data-i18n-aria="levels"></nav>
+  <div class="grid">
+    <section>
+      <div class="card" id="brief"></div>
+      <details id="hints"></details>
+      <div id="editor"></div>
+      <div class="toolbar">
+        <button class="btn primary act" id="run" data-i18n="run">Run tests</button>
+        <button class="btn act" id="trace" data-i18n="trace">Step through</button>
+        <button class="btn" id="reset" data-i18n="reset">Reset</button>
+        <button class="btn" id="copy" data-i18n="copy">Copy code</button>
+        <button class="btn" id="download" data-i18n="download">Download .py</button>
+      </div>
+      <div id="notice" aria-live="polite"></div>
+    </section>
+    <section>
+      <div class="card"><h2 data-i18n="visualizer">Visualizer</h2><div class="viz" id="viz"></div>
+        <div class="controls" id="controls" hidden>
+          <button class="btn" id="prev" aria-label="Previous step">&#9664;</button>
+          <button class="btn" id="play" aria-label="Play or pause">&#9654;</button>
+          <button class="btn" id="fwd" aria-label="Next step">&#9654;|</button>
+          <input type="range" id="step" min="0" max="0" value="0" aria-label="Step">
+          <span class="vlabel" id="steplabel"></span>
+          <select id="speed" aria-label="Speed"><option value="900">slow</option><option value="450" selected>normal</option><option value="150">fast</option></select>
+        </div></div>
+      <div class="card"><h2 data-i18n="tests">Tests</h2><div id="results"></div></div>
+      <div class="card" id="scale-card" hidden><h2 data-i18n="scaleIt">Scale it up</h2><button class="btn act" id="measure" data-i18n="measure">Measure</button><div id="scale"></div></div>
+      <div class="card"><h2 data-i18n="output">Output</h2><pre id="stdout"></pre></div>
+      <div class="card" id="finish" hidden><h2 data-i18n="cleared">Level cleared</h2>
+        <p data-i18n="clearedBody">All tests pass. Now make it real: copy this code into your own lab file and run it there.</p>
+        <p><b data-i18n="reflect">Reflect:</b> <span id="reflect"></span></p>
+        <button class="btn primary" id="next" data-i18n="next">Next level</button></div>
+    </section>
+  </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js" integrity="sha384-ZYmwuq4n2gOcNxMSiJ6jyTj+BbIrilr7p6dlq6q5nmSWKmsH9UU4K1qqjycMkfmR" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js" integrity="sha384-Xy+2exU6lBoT4OpUOtnQb+cUpn+nlJQEHvRobWVtwz6wIsw4oNoO7xyd/l8rYgMy" crossorigin="anonymous"></script>
+<script src="../../shared/i18n.js"></script>
+<script src="../../lookup-cost/lesson.js"></script>
+<script src="../../lookup-cost/lesson.zh.js"></script>
+<script src="../../shared/engine.js"></script>
+</body>
+</html>

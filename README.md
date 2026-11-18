@@ -20,5 +20,6 @@ Live: https://yuehhua.github.io/interactives/
    Run `python3 dev/gen_manifest.py` to refresh `manifest.js` and `manifest.zh.js`.
 4. A non-Python interactive can live in its own folder too; it only needs a card in `manifest.js`.
 
-The language switch (top right) remembers the choice in this browser; the default follows the browser language, and `?lang=zh` / `?lang=en` forces one.
+Each language has its own URL: `/en/<lab>/` and `/zh/<lab>/` (the switch at the top right moves between them). The old `/<lab>/` and `/` URLs redirect by the saved or browser language.
+The `en/` and `zh/` page trees and the root redirects are generated: after `gen_manifest.py` run `python3 dev/gen_lang_pages.py` (needs the local `dev/lab-template.html` and `dev/index-template.html`) and commit the output.
 No build step. Use relative URLs only (the site is served under `/interactives/`).
