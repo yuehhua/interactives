@@ -6,7 +6,7 @@
     en: {
       allLabs: '← All interactives', loadingPy: 'Loading Python…', pyReady: 'Python ready', pyFail: 'Python failed to load (check your connection)',
       pyLoading: 'Loading Python (about 10 MB, cached after the first visit)…', hints: 'Stuck? Hints', level: 'Level', levels: 'Levels',
-      run: 'Run tests', trace: 'Step through', reset: 'Reset', copy: 'Copy code', download: 'Download .py', visualizer: 'Visualizer', tests: 'Tests',
+      run: 'Run tests', trace: 'Step through', reset: 'Reset', copy: 'Copy code', download: 'Download code', visualizer: 'Visualizer', tests: 'Tests',
       scaleIt: 'Scale it up', measure: 'Measure', output: 'Output', cleared: 'Level cleared',
       clearedBody: 'All tests pass. Now make it real: copy this code into your own lab file and run it there.', reflect: 'Reflect:', next: 'Next level',
       slow: 'slow', normal: 'normal', fast: 'fast', runToSee: 'Run the tests to see results.', pressStep: 'Press “Step through” to run the demo input on your code.',
@@ -22,7 +22,7 @@
     zh: {
       allLabs: '← 所有互動練習', loadingPy: '正在載入 Python…', pyReady: 'Python 已就緒', pyFail: 'Python 載入失敗（請檢查網路連線）',
       pyLoading: '正在載入 Python（約 10 MB，首次之後會快取）…', hints: '卡住了？看提示', level: '關卡', levels: '關卡',
-      run: '執行測試', trace: '逐步執行', reset: '重設', copy: '複製程式碼', download: '下載 .py', visualizer: '視覺化', tests: '測試',
+      run: '執行測試', trace: '逐步執行', reset: '重設', copy: '複製程式碼', download: '下載程式碼', visualizer: '視覺化', tests: '測試',
       scaleIt: '放大規模', measure: '量測', output: '輸出', cleared: '過關',
       clearedBody: '所有測試都通過了。接著把它變成真的：把這段程式碼複製到你自己的實作檔案中執行。', reflect: '想一想：', next: '下一關',
       slow: '慢', normal: '正常', fast: '快', runToSee: '執行測試以查看結果。', pressStep: '按下「逐步執行」，用示範輸入跑你的程式碼。',
