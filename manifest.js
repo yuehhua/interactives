@@ -267,5 +267,65 @@ window.MANIFEST = [
       "free-match",
       "memo"
     ]
+  },
+  {
+    "id": "bfs",
+    "path": "bfs/",
+    "topic": "Graphs",
+    "title": "Breadth-First Search: Who Is Exposed on Day k?",
+    "blurb": "Walk a ward's contact graph with a queue to find who is exposed on day k, fix a bug that overwrites distances, then recover the chain of transmission.",
+    "levelIds": [
+      "fill",
+      "visited",
+      "path"
+    ]
+  },
+  {
+    "id": "dfs",
+    "path": "dfs/",
+    "topic": "Graphs",
+    "title": "Depth-First Search: Where Does the Chain Go?",
+    "blurb": "Dive down a contact chain with discovery and finish stamps, fix a clock that forgets to tick, then spot a cycle by meeting a gray vertex.",
+    "levelIds": [
+      "fill",
+      "clock",
+      "cycle"
+    ]
+  },
+  {
+    "id": "topological-sort",
+    "path": "topological-sort/",
+    "topic": "Graphs",
+    "title": "Topological Sort: In What Order May the Team Act?",
+    "blurb": "Order an incident-response plan with Kahn's algorithm, detect the deadlock a cycle creates, and fix a task that starts too early.",
+    "levelIds": [
+      "fill",
+      "cycle",
+      "duplicates"
+    ]
+  },
+  {
+    "id": "dijkstra",
+    "path": "dijkstra/",
+    "topic": "Shortest paths",
+    "title": "Dijkstra: The Fastest Route to Ward 7",
+    "blurb": "Get the crash cart to ward 7: write relaxation with a heap, return the route, then catch the covered walkway that silently makes Dijkstra answer 6 instead of 3.",
+    "levelIds": [
+      "relax",
+      "path",
+      "walkway"
+    ]
+  },
+  {
+    "id": "bellman-ford",
+    "path": "bellman-ford/",
+    "topic": "Shortest paths",
+    "title": "Bellman-Ford: When a Shortcut Saves Time",
+    "blurb": "Relax every corridor |V|-1 times, detect a loop that saves four minutes per lap, and fix a detector that cries wolf on tight corridors.",
+    "levelIds": [
+      "passes",
+      "cycle",
+      "false-alarm"
+    ]
   }
 ];
