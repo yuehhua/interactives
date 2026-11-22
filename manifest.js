@@ -246,6 +246,19 @@ window.MANIFEST = [
     ]
   },
   {
+    "id": "route-dp",
+    "path": "route-dp/",
+    "topic": "Dynamic programming",
+    "title": "Cheapest Route",
+    "blurb": "Cheapest-road-first costs 12 on a small map; the cheapest route costs 7. Fill a table that solves each stop once and recover the route.",
+    "levelIds": [
+      "greedy",
+      "fill",
+      "route",
+      "general"
+    ]
+  },
+  {
     "id": "rod-cutting",
     "path": "rod-cutting/",
     "topic": "Dynamic programming",

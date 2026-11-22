@@ -109,6 +109,11 @@ window.MANIFEST_ZH = {
     "topic": "貪婪演算法",
     "blurb": "先算 LRU 的未命中次數，再淘汰最晚才被需要的頁面，並修掉 min 與 max 的錯誤。"
   },
+  "route-dp": {
+    "title": "最低成本路線",
+    "topic": "動態規劃",
+    "blurb": "一張小地圖上，每步挑最便宜的路要花 12，最低成本的路線只要 7。填一張每個站只解一次的表，再還原出路線。"
+  },
   "rod-cutting": {
     "title": "鋼條切割（Rod Cutting）：從指數時間到表格",
     "topic": "動態規劃",
