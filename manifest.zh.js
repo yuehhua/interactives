@@ -89,15 +89,25 @@ window.MANIFEST_ZH = {
     "topic": "線性時間排序",
     "blurb": "把檢驗數值分進抽屜，再處理資料分佈不均時會發生的問題。"
   },
+  "coin-change-greedy": {
+    "title": "找零問題（Coin Change）：先拿最大的硬幣",
+    "topic": "貪婪演算法",
+    "blurb": "用「拿得下的最大硬幣」付款，抓出由小到大的錯誤，再找出一組貪婪法會失敗的硬幣面額。"
+  },
   "activity-selection": {
     "title": "活動選擇問題（Activity Selection）：貪婪選擇",
     "topic": "貪婪演算法",
-    "blurb": "替手術室排出最多筆申請，再揭穿一條聽起來很合理、其實是錯的貪婪規則。"
+    "blurb": "替會議室排出最多筆申請，再揭穿一條聽起來很合理、其實是錯的貪婪規則。"
   },
-  "huffman-coding": {
-    "title": "霍夫曼編碼（Huffman Coding）：合併最稀有的兩個",
+  "fractional-knapsack": {
+    "title": "分數背包問題（Fractional Knapsack）：每公斤價值最高的先裝",
     "topic": "貪婪演算法",
-    "blurb": "壓縮定序紀錄：用堆積建出最佳前綴碼，再從樹上讀出編碼並無失真地解碼。"
+    "blurb": "依每公斤價值裝背包，抓出「最貴的先裝」這個陷阱，再看為什麼 0/1 物品會讓這條規則失效。"
+  },
+  "offline-caching": {
+    "title": "離線快取（Offline Caching）：淘汰最晚才會用到的頁面",
+    "topic": "貪婪演算法",
+    "blurb": "先算 LRU 的未命中次數，再淘汰最晚才被需要的頁面，並修掉 min 與 max 的錯誤。"
   },
   "rod-cutting": {
     "title": "鋼條切割（Rod Cutting）：從指數時間到表格",

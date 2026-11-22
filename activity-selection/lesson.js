@@ -47,7 +47,7 @@ def t_perf(ns):
     _check(ns, acts)
 
 TESTS = [
-    ("CLRS Figure 16.1: 4 activities", "basic", t_clrs),
+    ("CLRS Figure 15.1: 4 activities", "basic", t_clrs),
     ("60 random requests match the optimum", "basic", t_random),
     ("no requests", "edge", t_empty),
     ("one request", "edge", t_one),
@@ -60,7 +60,7 @@ window.LESSON = {
   id: 'activity-selection',
   title: 'Activity Selection: The Greedy Choice',
   topic: 'Greedy algorithms',
-  intro: `One operating room, many requests, each with a start and a finish time. Pick the <b>largest set of requests
+  intro: `One meeting room, many requests, each with a start and a finish time. Pick the <b>largest set of requests
     that do not overlap</b>. Trying every subset is hopeless, but a single greedy rule is provably optimal: always take the
     compatible request that <b>finishes first</b>. Choosing the rule is the whole difficulty: plenty of sensible-sounding
     rules fail.`,

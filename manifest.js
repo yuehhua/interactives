@@ -199,25 +199,50 @@ window.MANIFEST = [
     ]
   },
   {
+    "id": "coin-change-greedy",
+    "path": "coin-change-greedy/",
+    "topic": "Greedy algorithms",
+    "title": "Coin Change: Take the Biggest Coin",
+    "blurb": "Pay with the biggest coin that fits, catch a smallest-first bug, then find a coin system where greedy is not safe.",
+    "levelIds": [
+      "fill",
+      "wrong-order",
+      "counterexample"
+    ]
+  },
+  {
     "id": "activity-selection",
     "path": "activity-selection/",
     "topic": "Greedy algorithms",
     "title": "Activity Selection: The Greedy Choice",
-    "blurb": "Schedule the most operating-room requests, then expose a tempting greedy rule that is wrong.",
+    "blurb": "Schedule the most meeting-room requests, then expose a tempting greedy rule that is wrong.",
     "levelIds": [
       "fill",
       "wrong-rule"
     ]
   },
   {
-    "id": "huffman-coding",
-    "path": "huffman-coding/",
+    "id": "fractional-knapsack",
+    "path": "fractional-knapsack/",
     "topic": "Greedy algorithms",
-    "title": "Huffman Coding: Merge the Two Rarest",
-    "blurb": "Compress a sequencing log: build the optimal prefix code with a heap, then read codes off the tree and decode losslessly.",
+    "title": "Fractional Knapsack: Best Value per Kilogram",
+    "blurb": "Fill a pack by value per kilogram, catch the most-valuable-first trap, then see why 0/1 items break the rule.",
     "levelIds": [
-      "build",
-      "codec"
+      "fill",
+      "wrong-rule",
+      "zero-one"
+    ]
+  },
+  {
+    "id": "offline-caching",
+    "path": "offline-caching/",
+    "topic": "Greedy algorithms",
+    "title": "Offline Caching: Evict the Page Needed Last",
+    "blurb": "Count cache misses for LRU, then evict the page needed furthest in the future and fix a min-versus-max bug.",
+    "levelIds": [
+      "lru",
+      "furthest",
+      "wrong-rule"
     ]
   },
   {

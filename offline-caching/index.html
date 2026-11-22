@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactives</title>
+<script>
+  var l = 'en'; try { l = localStorage.getItem('dsa-int:v1:lang') || (/^zh/i.test(navigator.language) ? 'zh' : 'en'); } catch (e) {}
+  if (l !== 'zh') l = 'en';
+  location.replace('../' + l + '/offline-caching/' + location.search + location.hash);
+</script></head>
+<body><p><a href="../en/offline-caching/">English</a> &middot; <a href="../zh/offline-caching/">&#32321;&#39636;&#20013;&#25991;</a></p></body></html>
